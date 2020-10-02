@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<h1>Welcome to My Resource API</h1>
+<h2>List of All Resources</h2>
+<table style="width:100%">
+  <tr>
+    <th align="left">Resource ID</th>
+    <th align="left">Resource ID</th>
+<th align="left">Resource Size</th>
+<th align="left">Resource Name</th>
+<th align="left">Resource Category</th>
+<th align="left">Resource Link</th>
+<th align="left">Resource Thumbnail</th>
+  </tr>
+{% for record in model  %}
+<tr>
+{% for it in record  %}
+	{% if it.0 == 6 %}
+		<td><a href="{{ it.1 }}">DOWNLOAD</a></td>
+	{%  elif it.0 == 7 %}
+		{% ifnotequal it.1 None %}
+			{% load static %}	
+			<td><img src = {{ it.1 }}></td>
+		{% endifnotequal %}	
+	{%  else %}
+		<td>{{ it.1 }}</td>
+	{% endif %}
+{% endfor %}
+</tr>
+ 
+{% endfor %}
+
+
+
+</table>
+<script>
+var x="{{ model }}";
+console.log(x);
+</script>
+{% endblock %}
