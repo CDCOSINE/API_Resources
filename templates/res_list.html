@@ -1,27 +1,39 @@
 {% extends 'base.html' %}
 
-
 {% block content %}
 <h1>Welcome to My Resource API</h1>
 <h2>List of All Resources</h2>
+<script type="text/javascript">
+function myFunction(link) {
+  alert("Download File from" + link);
+}
+</script>
+
 <table style="width:100%">
   <tr>
     <th align="left">Resource ID</th>
     <th align="left">Resource ID</th>
+<th align="left">Resource Size</th>
 <th align="left">Resource Name</th>
 <th align="left">Resource Category</th>
 <th align="left">Resource Link</th>
-<th align="left">Resource Thumbnail</th>
   </tr>
+
 {% for record in model  %}
-       <tr> 
-
-{% for it in record.values  %}
-       <td>{{it}}</td>
-{%endfor%}
-
-
+<tr>
+{% for it in record  %}
+	{% if it.0 == 6 %}
+		<td><button onclick = "myFunction('127.0.0.1:8000/api/res_list/'+{{ record.1.1 }});">Link</button></td>
+	{%  elif it.0 < 6 %}
+		<td>{{ it.1 }}</td>
+	{% endif %}
+{% endfor %}
 </tr>
-{%endfor%}
-    </table>
+ 
+{% endfor %}
+
+
+
+</table>
+
 {% endblock %}

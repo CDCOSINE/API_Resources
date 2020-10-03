@@ -11,6 +11,8 @@ class ResSerializer(serializers.ModelSerializer):
     #def upload_dir(self,filename):
      #   return r"C:/abc/" + filename
     res_thumbnail = serializers.ImageField()
+    res_path = serializers.CharField(allow_null=True)
+    res_time = serializers.DateTimeField()
     class Meta:
         model = Resource
         fields = '__all__'

@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<style>
+.btn {
+  border: 2px solid black;
+  background-color: white;
+  color: black;
+  padding: 14px 28px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+/* Green */
+.success {
+  border-color: #4CAF50;
+  color: green;
+}
+
+.success:hover {
+  background-color: #4CAF50;
+  color: white;
+}
+</style>
+
+<h2>Add Resource</h2>
+
+<form method="post">
+  <label for="rid">Resource Id:</label><br>
+  <input type="number" id="Resource_ID" name="rid" value="117"><br>
+
+  <label for="rsiz">Resource Size:</label><br>
+  <input type="number" id="Resource Size" name="rsiz" value="100"><br>
+  
+  <label for="rname">Resource Name:</label><br>
+  <input type="text" id="Resource Name" name="rname" value="movie1"><br>
+
+
+  <label for="rcat">Resource Category:</label><br>
+  <input type="text" id="Resource Category" name="rcat" value=".mp4"><br>
+
+
+<label for="rlink">Resource Link:</label><br>
+  <input type="text" id="Resource Link" name="rlink" value="https://wwww.google.co.in/"><br>
+
+<label for="file">Add Thumbnail:</label><br>
+<input type="file" id="Add Thumbnail" name="filename">
+ <input type="submit" formaction="/api/res_list/" value="Submit">
+</form> 
+
+{% endblock %}

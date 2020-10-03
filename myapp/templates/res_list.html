@@ -18,7 +18,7 @@
 <tr>
 {% for it in record  %}
 	{% if it.0 == 6 %}
-		<td><a href="{{ it.1 }}">DOWNLOAD</a></td>
+		<td><a href="{{ it.1 }}" download>DOWNLOAD</a></td>
 	{%  elif it.0 == 7 %}
 		{% ifnotequal it.1 None %}
 			{% load static %}	
