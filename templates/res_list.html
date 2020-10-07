@@ -1,39 +1,48 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>Welcome to My Resource API</h1>
+{% load static %}
 <h2>List of All Resources</h2>
 <script type="text/javascript">
 function myFunction(link) {
   alert("Download File from" + link);
+  window.location = link.charAt(link.length-1);
 }
 </script>
 
-<table style="width:100%">
+<table id="customers">
   <tr>
-    <th align="left">Resource ID</th>
-    <th align="left">Resource ID</th>
-<th align="left">Resource Size</th>
-<th align="left">Resource Name</th>
-<th align="left">Resource Category</th>
-<th align="left">Resource Link</th>
+    <th align="left"><h3>Resource ID</h3></th>
+<th align="left"><h3>Resource Size</h3></th>
+<th align="left"><h3>Resource Name</h3></th>
+<th align="left"><h3>Resource Category</h3></th>
+<th align="left"><h3>Resource Link</h3></th>
+<th align="left"><h3>Resource Thumbnail</h3></th>
   </tr>
 
 {% for record in model  %}
 <tr>
 {% for it in record  %}
+	{% if it.0 == 7 %}
+		{% if "mp4" in record.4.1 %}
+			<td><img src="https://getuikit.com/v2/docs/images/placeholder_600x400.svg" alt="Image File" width = "65" height = "65"></td>
+		{% elif "pdf" in record.4.1 %}
+			<td><img src={% static "a.png" %} alt="PDF File" width = "65" height = "65"></td>
+		{% else %}
+			<td><h3>{{ record.4.1 }}</h3></td>
+		{% endif %}
+	{% endif %}
 	{% if it.0 == 6 %}
-		<td><button onclick = "myFunction('127.0.0.1:8000/api/res_list/'+{{ record.1.1 }});">Link</button></td>
-	{%  elif it.0 < 6 %}
-		<td>{{ it.1 }}</td>
+		<td><h3><button class="button" onclick = "myFunction('127.0.0.1:8000/api/res_list/'+{{ record.1.1 }});">Link</button></h3></td>
+	{% elif it.0 == 3 %}
+		<td><h3>{{ it.1 }} Mb</h3></td>
+	{%  elif it.0 < 6 and it.0 > 1 %}
+		<td><h3>{{ it.1 }}</h3></td>
 	{% endif %}
 {% endfor %}
 </tr>
  
 {% endfor %}
-
-
-
 </table>
-
+<button class="button" onclick="location.href='http://127.0.0.1:8000/';" >Home</button>
 {% endblock %}

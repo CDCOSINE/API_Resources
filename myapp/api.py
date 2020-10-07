@@ -15,18 +15,42 @@ from wsgiref.util import FileWrapper
 
 import os
 
-def download(request, file_path):
-    try:
-        wrapper = FileWrapper(open(file_path, 'rb'))
-        response = HttpResponse(wrapper, content_type='application/force-download')
-        response['Content-Disposition'] = 'inline; filename=' + os.path.basename(file_path)
+def convert(seconds): 
+    seconds = seconds % (24 * 3600) 
+    hour = seconds // 3600
+    seconds %= 3600
+    minutes = seconds // 60
+    seconds %= 60
+      
+    return [hour, minutes, seconds] 
+
+
+def download(serializer,request, file_path):
+    
+    wrapper = FileWrapper(open(file_path,'rb'))
+    response = HttpResponse(wrapper, content_type='application/force-download')
+    response['Content-Disposition'] = 'inline; filename=' + os.path.basename(file_path)
+    currenttime = str(datetime.now().time()).split(':')
+    chhr = int(currenttime[0])
+    chm = int(currenttime[1])
+    chs = int(float(currenttime[2]))
+    thattime = str(serializer.data['res_time']).split(':')
+    thhr = int(thattime[0])
+    thm = int(thattime[1])
+    ths = int(float(thattime[2]))
+    abc = (chhr-thhr)*3600 + (chm-thm)*60 + (chs-ths)
+    if( int(abc) <= int(3600) ):
         return response
-    except Exception as e:
-        return None
-
-
-
-
+    else:
+        li = convert(abc-3600)
+        hr = li[0]
+        minn = li[1]
+        sec = li[2]
+        li2 = convert(3600)
+        trhr = li2[0]
+        trminn = li2[1]
+        trsec = li2[2]
+        return render(request,'expired.html',{'tdiff':[hr,minn,sec,trhr,trminn,trsec]})
 
 
 
@@ -46,26 +70,15 @@ class DownRes(APIView):
         
     
     def get(self,request,res_id):
+        
         if not self.get_user(res_id):
             return Response(f'Resource with ID = {res_id} Not Found',status = status.HTTP_404_NOT_FOUND)
+        
         serializer = ResSerializer(self.get_user(res_id))
         pathh = serializer.data['res_thumbnail']
-        currenttime = str(datetime.now().time()).split(':')
-        chhr = int(currenttime[0])
-        chm = int(currenttime[1])
-        chs = int(float(currenttime[2]))
-        thattime = str(serializer.data['res_time']).split(':')
-        thhr = int(thattime[0])
-        thm = int(thattime[1])
-        ths = int(float(thattime[2]))
-        abc = (chhr-thhr)*3600 + (thm-chm)*60 + (ths-chs)
-        print(currenttime, ' --> ', thattime)
-        print(abc)
-        if( int(abc) <= int(10800) ):
-             return download(request, r'C:/Users/User/Desktop/newpojectt'+pathh)
-        else:
-            return render(request,'expired.html',{})
-        #return Response(serializer.data)
+        return download(serializer,request, r'C:/Users/User/Desktop/newpojectt'+pathh)
+
+        
   
 class ResList(APIView):
     def get(self,request):
@@ -84,30 +97,3 @@ class ResList(APIView):
         
         return render(request,'res_list.html',{'model':list2})
     
-    def post(self,request):
-            rid = request.POST['rid']
-            size = request.POST['rsiz']
-            name = request.POST['rname']
-            cat = request.POST['rcat']
-            link = request.POST['rlink']
-            # thumb = '/' + thumb
-            #thumb = thumb.file
-            # thumb = 'abcdef'
-            abc = r'C:/Users/User/Desktop/g1.PNG'
-            img  = Image.open(abc)
-            serializer = ResSerializer(data={'res_id':rid,'res_size':size,'res_name':name,'res_category':cat,'res_link':link})
-            if serializer.is_valid(raise_exception=True):
-                serializer.save()
-                return self.get(request)
-            else:
-                return render(request,"badreq.html")
-            # else:
-            #     return "abcedhvdebeh"
-        # except:
-        #     render(request,"badreq.html")
-        
-class Add_Res(APIView):
-    def get(self,request):
-        return render(request,'add_Res.html')
-        # def post(self,request):
-        #    

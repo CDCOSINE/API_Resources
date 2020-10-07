@@ -3,27 +3,13 @@
 
 {% block content %}
 <style>
-.btn {
-  border: 2px solid black;
-  background-color: white;
-  color: black;
-  padding: 14px 28px;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-/* Green */
-.success {
-  border-color: #4CAF50;
-  color: green;
-}
-
-.success:hover {
-  background-color: #4CAF50;
-  color: white;
+h2 {
+text-align: center;
 }
 </style>
 
 <h2>Link Expired</h2>
-
+<h2>Link is inactive from past {{ tdiff.0 }} hours, {{ tdiff.1 }} minutes, {{ tdiff.2 }} seconds</h2>
+<h2>Threshold time to use the Link is {{ tdiff.3 }} hours, {{ tdiff.4 }} minutes, {{ tdiff.5 }} seconds</h2>
+<h2 text-align: center;><button class="button" onclick="location.href='http://127.0.0.1:8000/api/res_list/';">Go to Resource List</button></h2>
 {% endblock %}

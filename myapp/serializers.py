@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from myapp.models import Resource
+from datetime import datetime
 
 class ResSerializer(serializers.ModelSerializer):
     res_id = serializers.IntegerField()
@@ -7,12 +8,8 @@ class ResSerializer(serializers.ModelSerializer):
     #IntegerField(unique=True)
     res_name = serializers.CharField(max_length=100)
     res_category = serializers.CharField(max_length=15)
-    res_link = serializers.CharField(max_length = 10000)
-    #def upload_dir(self,filename):
-     #   return r"C:/abc/" + filename
-    res_thumbnail = serializers.ImageField()
-    res_path = serializers.CharField(allow_null=True)
-    res_time = serializers.DateTimeField()
+    res_thumbnail = serializers.FileField()
+    res_time = serializers.CharField(max_length=1000,default = str(datetime.now().time()))
     class Meta:
         model = Resource
         fields = '__all__'

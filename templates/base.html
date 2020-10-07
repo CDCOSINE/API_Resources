@@ -1,13 +1,50 @@
-
-<!DOCTYPE html>
-<html lang="en">
+{% load static %}
+<html>
 <head>
-    <title>My API</title>
+<style>
+h1 {text-align: center;
+border: 5px solid red;}
+#customers {
+  border-collapse: collapse;
+  width: 100%;
+}
+#bg{
+    background-size: 1400px 670px;
+    background-repeat: no-repeat;
+    background-position: top;
+    background-attachment: fixed;
+}
+.button {
+  background-color: #90EE90;
+  border: solid;
+  color: black;
+  padding: 16px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+}
+div{
+    background-image:url('{% static "bs.png" %}');
+    opacity:0.63;
+    position:absolute;
+    top:0;
+    bottom:0;
+    right:0;
+    left:0;
+    background-repeat: no-repeat;
+    background-size: cover;
+    z-index:-1;
+}
+</style>
 </head>
 <body>
-
+<h1  style="color:black" text-align:center >Resource Downloader (Only for employees of XYZ )</h1>
+<div></div>
 {% block content %}
-
 {% endblock %}
 </body>
 </html>
